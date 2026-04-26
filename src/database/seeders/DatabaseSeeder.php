@@ -6,13 +6,15 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // 修正: 関連テーブルを先に作る
+        $this->call([
+            UserSeeder::class,
+            CategorySeeder::class,
+            BrandSeeder::class,
+            StatusSeeder::class,
+            ProductSeeder::class,
+        ]);
     }
 }

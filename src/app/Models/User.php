@@ -50,4 +50,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+
+    //1人のユーザーは複数の商品を出品できる
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProfileRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * リクエストを許可するか
      *
      * @return bool
      */
@@ -17,39 +17,61 @@ class ProfileRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * バリデーションルール
      *
      * @return array
      */
     public function rules()
     {
+        // 修正: 初回登録は画像必須、編集時は画像任意
+        $imageRule = $this->isMethod('patch')
+            ? ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+            : ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'];
+
         return [
-            //ニックネームは必須
-            'name' => ['required', 'string', 'max:255'],
-            //郵便番号は必須
-            'zip_code' => ['required', 'string', 'max:8'],
-            //住所は必須
+            // 修正: ユーザー名は必須・20文字以内
+            'name' => ['required', 'string', 'max:20'],
+
+            // 修正: 郵便番号はハイフンありの8文字 例: 123-4567
+            'zip_code' => ['required', 'string', 'regex:/^\d{3}-\d{4}$/'],
+
+            // 住所は必須
             'residence' => ['required', 'string', 'max:255'],
-            //建物名は任意
+
+            // 建物名は任意
             'building' => ['nullable', 'string', 'max:255'],
-            //画像は任意、画像ファイルのみ
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg','max:2048'],
-            'image.max' => 'プロフィール画像は2MB以内でアップロードしてください。',
+
+            // 修正: 初回登録/編集で画像ルールを切り替え
+            'image' => $imageRule,
         ];
     }
 
+    /**
+     * エラーメッセージ
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
-            'name.required' => 'お名前（ニックネーム）を入力してください。',
-            'name.max' => 'お名前（ニックネーム）は255文字以内で入力してください。',
+            'name.required' => 'ユーザー名を入力してください。',
+            'name.max' => 'ユーザー名は20文字以内で入力してください。',
+
             'zip_code.required' => '郵便番号を入力してください。',
-            'zip_code.max' => '郵便番号は8文字以内で入力してください。',
+            'zip_code.regex' => '郵便番号はハイフンありの8文字で入力してください。',
+
             'residence.required' => '住所を入力してください。',
             'residence.max' => '住所は255文字以内で入力してください。',
+
             'building.max' => '建物名は255文字以内で入力してください。',
+
+            'image.required' => 'プロフィール画像をアップロードしてください。',
             'image.image' => 'プロフィール画像は画像ファイルを選択してください。',
             'image.mimes' => 'プロフィール画像はjpeg、png、jpg形式でアップロードしてください。',
+            'image.max' => 'プロフィール画像は2MB以内でアップロードしてください。',
+
+            // 修正: PHP側でアップロード失敗した時用
+            'image.uploaded' => 'プロフィール画像は2MB以内でアップロードしてください。',
         ];
     }
 }

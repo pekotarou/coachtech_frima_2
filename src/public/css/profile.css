@@ -1,0 +1,143 @@
+.profile-create {
+    max-width: 680px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.profile-create__title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.profile-create__form {
+    width: 100%;
+}
+
+.profile-create__image-area {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.profile-create__image-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #d9d9d9;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-create__image {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-create__image-button {
+    display: inline-block;
+    padding: 8px 22px;
+    border: 2px solid #ff5555;
+    border-radius: 8px;
+    color: #ff5555;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.profile-create__image-input {
+    display: none;
+}
+
+.profile-create__group {
+    margin-bottom: 28px;
+}
+
+.profile-create__label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.profile-create__input {
+    width: 100%;
+    height: 46px;
+    padding: 0 12px;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.profile-create__submit {
+    width: 100%;
+    height: 48px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    background: #ff5555;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.profile-create__error {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.profile-show {
+    max-width: 1010px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.profile-show__header {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 60px;
+}
+
+.profile-show__image-wrap {
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0;
+}
+
+.profile-show__image,
+.profile-show__image-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #d9d9d9;
+    object-fit: cover;
+}
+
+.profile-show__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.profile-show__name {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.profile-show__edit {
+    padding: 8px 20px;
+    border: 2px solid #ff5555;
+    border-radius: 8px;
+    color: #ff5555;
+    font-weight: bold;
+    text-decoration: none;
+}
