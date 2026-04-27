@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 // 修正: ProfileRequest 1つに統一
 use App\Http\Requests\ProfileRequest;
 
+
+
 class ProfileController extends Controller
 {
     // 初回プロフィール設定画面
@@ -82,8 +84,10 @@ class ProfileController extends Controller
             ['user_id' => $user->id],
             $data
         );
-
         // 編集後はマイページへ
         return redirect('/mypage');
     }
 }
+
+
+

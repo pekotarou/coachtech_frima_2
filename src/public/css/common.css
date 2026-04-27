@@ -22,12 +22,13 @@ body {
     padding: 0 30px;
     display: flex;
     align-items: center;
-
-    /* 修正: ロゴを左、メニューを右に配置 */
-    justify-content: space-between;
+    gap: 32px;
 }
 
 .header__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
     color: #ffffff;
     font-size: 28px;
     font-weight: bold;
@@ -38,25 +39,34 @@ body {
     height: 27px;
 }
 
-.main {
-    width: 100%;
+.header__search-form {
+    flex: 1;
+    max-width: 500px;
 }
 
-/* ここから追加: ヘッダーメニュー */
+.header__search-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
 .header__nav {
     display: flex;
     align-items: center;
     gap: 24px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
-/* 追加: ヘッダー内リンク */
 .header__link {
     color: #ffffff;
     text-decoration: none;
     font-size: 14px;
 }
 
-/* 追加: 出品ボタン */
 .header__sell-link {
     padding: 8px 18px;
     border-radius: 4px;
@@ -66,12 +76,10 @@ body {
     font-size: 14px;
 }
 
-/* 追加: ログアウトフォーム */
 .header__logout-form {
     margin: 0;
 }
 
-/* 追加: ログアウトボタン */
 .header__logout-button {
     padding: 0;
     border: none;
@@ -79,4 +87,8 @@ body {
     color: #ffffff;
     font-size: 14px;
     cursor: pointer;
+}
+
+.main {
+    width: 100%;
 }

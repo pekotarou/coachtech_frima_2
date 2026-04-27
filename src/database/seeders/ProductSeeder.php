@@ -16,12 +16,16 @@ class ProductSeeder extends Seeder
         // 修正: 商品の出品者として1人目のユーザーを使う
         $user = User::first();
 
-        // ユーザーがいない場合は、商品を作れないので処理を止める
         if (!$user) {
             return;
         }
 
+        // 修正: 仮で最初のカテゴリーを全商品に紐づける
         $category = Category::first();
+
+        if (!$category) {
+            return;
+        }
 
         $products = [
             [
@@ -106,26 +110,28 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        foreach ($products as $product) {
-            $brand = Brand::where('name', $product['brand'])->first();
-            $status = Status::where('status', $product['status'])->first();
+        foreach ($products as $productData) {
+            $brand = Brand::where('name', $productData['brand'])->first();
+            $status = Status::where('status', $productData['status'])->first();
 
-            Product::create([
-                'name' => $product['name'],
-                'price' => $product['price'],
-                'description' => $product['description'],
-                'image' => $product['image'],
+            if (!$brand || !$status) {
+                continue;
+            }
 
-                // 修正: 今回は仮で最初のカテゴリーを入れる
-                'category_id' => $category->id,
-
+            // 修正: productsテーブルにはcategory_idを保存しない
+            $product = Product::create([
+                'name' => $productData['name'],
+                'price' => $productData['price'],
+                'description' => $productData['description'],
+                'image' => $productData['image'],
                 'brand_id' => $brand->id,
                 'status_id' => $status->id,
                 'user_id' => $user->id,
-
-                // 未購入なのでnull
                 'order_id' => null,
             ]);
+
+            // 修正: 中間テーブル product_category にカテゴリーを保存
+            $product->categories()->attach($category->id);
         }
     }
 }

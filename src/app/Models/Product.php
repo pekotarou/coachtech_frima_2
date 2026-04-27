@@ -14,17 +14,17 @@ class Product extends Model
         'description',
         'price',
         'image',
-        'category_id',
         'status_id',
         'brand_id',
         'user_id',
         'order_id',
     ];
 
-    //商品は1つのカテゴリーに属する
-    public function category()
+
+    //商品は複数のカテゴリーを持つ
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'product_category');
     }
 
     //商品は1つの状態に属する

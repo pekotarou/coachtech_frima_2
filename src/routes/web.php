@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,9 @@ use App\Http\Controllers\ProductController;
 
 //商品一覧画面。未ログインでも表示可能
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
+
+//商品詳細画面
+Route::get('/item/{product}', [ProductController::class, 'show'])->name('products.show');
 
 //会員登録画面
 Route::get('/register', function () {

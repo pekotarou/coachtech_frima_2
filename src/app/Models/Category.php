@@ -13,9 +13,9 @@ class Category extends Model
         'content',
     ];
 
-    //1つのカテゴリーは複数の商品を持つ
+    //カテゴリーは複数の商品を持つ
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class, 'product_category');
     }
 }

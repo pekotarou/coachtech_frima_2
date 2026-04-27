@@ -32,6 +32,8 @@
 
 .products__card {
     width: 100%;
+    color: #000000;
+    text-decoration: none;
 }
 
 .products__image-wrap {

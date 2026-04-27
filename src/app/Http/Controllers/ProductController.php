@@ -28,4 +28,13 @@ class ProductController extends Controller
 
         return view('products.index', compact('products', 'tab'));
     }
+
+    //商品詳細画面
+    public function show(Product $product)
+    {
+        //関連データも一緒に取得
+        $product->load(['categories', 'brand', 'status', 'user']);
+
+        return view('products.show', compact('product'));
+    }
 }

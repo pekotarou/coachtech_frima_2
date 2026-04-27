@@ -29,8 +29,6 @@ class CreateProductsTable extends Migration
             //商品画像パス
             $table->string('image');
 
-            //カテゴリーID
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
 
             //商品状態ID
             $table->foreignId('status_id')->constrained()->cascadeOnDelete();

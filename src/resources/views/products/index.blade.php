@@ -24,10 +24,10 @@
 
     <div class="products__list">
         @forelse ($products as $product)
-            <div class="products__card">
+            <a class="products__card" href="{{ route('products.show', $product->id) }}">
                 <div class="products__image-wrap">
                     @if ($product->image)
-                        {{-- 修正: 商品画像は storage から表示 --}}
+                        {{-- 商品画像は storage から表示 --}}
                         <img
                             class="products__image"
                             src="{{ asset('storage/' . $product->image) }}"
@@ -48,7 +48,7 @@
                 <p class="products__name">
                     {{ $product->name }}
                 </p>
-            </div>
+            </a>
         @empty
             {{-- 修正: マイリスト未ログイン時など --}}
             <p class="products__empty">
