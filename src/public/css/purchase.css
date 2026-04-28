@@ -1,0 +1,139 @@
+.purchase {
+    max-width: 1230px;
+    margin: 70px auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 80px;
+}
+
+.purchase__main {
+    width: 100%;
+}
+
+.purchase__product {
+    display: flex;
+    gap: 24px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid #5f5f5f;
+}
+
+.purchase__image-wrap {
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+    background: #d9d9d9;
+}
+
+.purchase__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.purchase__image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.purchase__product-name {
+    margin: 0 0 12px;
+    font-size: 24px;
+}
+
+.purchase__product-price {
+    margin: 0;
+    font-size: 24px;
+}
+
+.purchase__section {
+    padding: 32px 0;
+    border-bottom: 1px solid #5f5f5f;
+}
+
+.purchase__section-title {
+    margin: 0 0 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.purchase__select {
+    width: 260px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+}
+
+.purchase__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.purchase__address-link {
+    color: #0073cc;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.purchase__address {
+    padding-left: 40px;
+}
+
+.purchase__address-text {
+    margin: 6px 0;
+    font-size: 16px;
+}
+
+.purchase__side {
+    width: 100%;
+}
+
+.purchase__summary {
+    border: 1px solid #5f5f5f;
+}
+
+.purchase__summary-row {
+    min-height: 80px;
+    padding: 0 40px;
+    border-bottom: 1px solid #5f5f5f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.purchase__summary-row:last-child {
+    border-bottom: none;
+}
+
+.purchase__summary-label {
+    font-size: 16px;
+}
+
+.purchase__summary-value {
+    font-size: 16px;
+}
+
+.purchase__button {
+    width: 100%;
+    height: 48px;
+    margin-top: 32px;
+    border: none;
+    border-radius: 4px;
+    background: #ff5555;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.purchase__error {
+    margin-top: 8px;
+    color: #ff0000;
+    font-size: 14px;
+}

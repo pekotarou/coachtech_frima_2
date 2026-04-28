@@ -9,14 +9,14 @@
     <div class="products__tabs">
         <a
             class="products__tab {{ $tab === 'recommend' ? 'products__tab--active' : '' }}"
-            href="{{ route('products.index', ['tab' => 'recommend']) }}"
+            href="{{ route('products.index', ['tab' => 'recommend', 'keyword' => request('keyword')]) }}"
         >
             おすすめ
         </a>
 
         <a
             class="products__tab {{ $tab === 'mylist' ? 'products__tab--active' : '' }}"
-            href="{{ route('products.index', ['tab' => 'mylist']) }}"
+            href="{{ route('products.index', ['tab' => 'mylist', 'keyword' => request('keyword')]) }}"
         >
             マイリスト
         </a>

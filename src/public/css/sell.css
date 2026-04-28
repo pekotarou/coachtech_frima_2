@@ -1,0 +1,159 @@
+.sell {
+    max-width: 680px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.sell__title {
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.sell__form {
+    width: 100%;
+}
+
+.sell__group {
+    margin-bottom: 28px;
+}
+
+.sell__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sell__image-area {
+    position: relative;
+    min-height: 150px;
+    border: 1px dashed #5f5f5f;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sell__image-preview {
+    display: none;
+    max-width: 140px;
+    max-height: 140px;
+    object-fit: cover;
+}
+
+.sell__image-button {
+    padding: 8px 18px;
+    border: 1px solid #ff5555;
+    border-radius: 4px;
+    color: #ff5555;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sell__image-input {
+    display: none;
+}
+
+.sell__section {
+    margin-top: 36px;
+}
+
+.sell__section-title {
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #5f5f5f;
+    color: #5f5f5f;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sell__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.sell__category-input {
+    display: none;
+}
+
+.sell__category-text {
+    display: inline-block;
+    padding: 6px 16px;
+    border: 1px solid #ff5555;
+    border-radius: 20px;
+    color: #ff5555;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sell__category-input:checked + .sell__category-text {
+    background: #ff5555;
+    color: #ffffff;
+}
+
+.sell__select {
+    width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+    font-size: 16px;
+    
+}
+
+.sell__input {
+    width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.sell__textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+.sell__price-wrap {
+    position: relative;
+}
+
+.sell__price-mark {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 18px;
+}
+
+.sell__input--price {
+    padding-left: 32px;
+}
+
+.sell__submit {
+    width: 100%;
+    height: 50px;
+    margin-top: 32px;
+    border: none;
+    border-radius: 4px;
+    background: #ff5555;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sell__error {
+    margin-top: 6px;
+    color: #ff0000;
+    font-size: 14px;
+}

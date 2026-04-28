@@ -57,4 +57,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
+
+    // 追加: ユーザーが購入した注文
+    public function boughtOrders()
+    {
+        return $this->hasMany(Order::class, 'buyer_id');
+    }
+
+    // 追加: ユーザーが販売した注文
+    public function soldOrders()
+    {
+        return $this->hasMany(Order::class, 'seller_id');
+    }
 }

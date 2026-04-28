@@ -44,5 +44,11 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    //商品は1つの購入情報を持つ
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
     
 }

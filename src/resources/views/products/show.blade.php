@@ -5,6 +5,16 @@
 @endsection
 
 @section('content')
+
+{{-- 購入できない場合などのエラーメッセージ --}}
+@if (session('error'))
+    <div class="product-detail__flash-error">
+        {{ session('error') }}
+    </div>
+@endif
+
+
+
 <div class="product-detail">
     <div class="product-detail__image-area">
         @if ($product->image)
@@ -45,7 +55,7 @@
             </div>
         </div>
 
-        <a class="product-detail__purchase-button" href="/purchase/{{ $product->id }}">
+        <a class="product-detail__purchase-button" href="{{ route('products.purchase', $product->id) }}">
             購入手続きへ
         </a>
 

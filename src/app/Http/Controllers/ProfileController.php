@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 
 // 修正: ProfileRequest 1つに統一
 use App\Http\Requests\ProfileRequest;
+use App\Models\Product;
+use App\Models\Order;
 
 
 
@@ -45,8 +47,29 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('profile.show', compact('user'));
+        // 修正: マイページのタブ判定
+        // /mypage?page=sell → 出品した商品
+        // /mypage?page=buy  → 購入した商品
+        $page = request()->query('page', 'sell');
+
+        if ($page === 'buy') {
+            // 修正: ログインユーザーが購入した商品を取得
+            $products = Product::whereHas('order', function ($query) use ($user) {
+                $query->where('buyer_id', $user->id);
+            })
+            ->latest()
+            ->get();
+        } else {
+            // 修正: ログインユーザーが出品した商品を取得
+            $products = Product::where('user_id', $user->id)
+                ->latest()
+                ->get();
+        }
+
+        return view('profile.show', compact('user', 'products', 'page'));
     }
+
+
 
     // プロフィール設定・編集画面
     public function edit()
