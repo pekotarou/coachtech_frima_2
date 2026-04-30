@@ -12,49 +12,97 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
 use App\Models\Order;
 use App\Http\Requests\AddressRequest;
+use App\Models\Heart;
+use App\Http\Requests\CommentRequest;
+use App\Models\Comment;
+
 
 class ProductController extends Controller
 {
-    // 商品一覧画面
+    //商品一覧画面
     public function index(Request $request)
     {
         //タブ指定がなければおすすめを表示
         $tab = $request->query('tab', 'recommend');
 
-
         //検索キーワードを取得
         $keyword = $request->query('keyword');
 
-        if ($tab === 'mylist') {
+        if($tab === 'mylist') {
             //未ログインの場合、マイリストは何も表示しない
             if (!auth()->check()) {
                 $products = collect();
             } else {
-                // TODO: いいね機能作成後にマイリスト検索へ対応する
-                $products = collect();
+                //ログインユーザーがいいねした商品を取得
+                $query = Product::whereHas('hearts', function ($query) {
+                    $query->where('user_id', auth()->id());
+                });
+
+                //検索キーワードがあれば、マイリスト内でも商品名検索
+                if (!empty($keyword)) {
+                    $query->where('name', 'like', '%' . $keyword . '%');
+                }
+
+                $products = $query->latest()->get();
             }
         } else {
+            //おすすめ商品一覧
             $query = Product::query();
 
-        //商品名で部分一致検索
-        if (!empty($keyword)) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            //ログイン中は自分が出品した商品をおすすめ一覧から除外
+            if (auth()->check()) {
+                $query->where('user_id', '!=', auth()->id());
+            }
+
+            //キーワードが入力されている場合は商品名で検索
+            if (!empty($keyword)) {
+                $query->where('name', 'like', '%' . $keyword . '%');
             }
 
             $products = $query->latest()->get();
         }
 
-    return view('products.index', compact('products', 'tab', 'keyword'));
+        return view('products.index', compact('products', 'tab', 'keyword'));
+    }
 
-        }
+
+
+
 
     //商品詳細画面
     public function show(Product $product)
     {
-        //関連データも一緒に取得
-        $product->load(['categories', 'brand', 'status', 'user']);
+        //商品詳細で使う関連データを取得
+        $product->load([
+            'categories', 
+            'brand', 
+            'status', 
+            'user',
+            'hearts',
+            'comments.user.profile',            
+        ]);
 
-        return view('products.show', compact('product'));
+        //いいね数を取得
+        $heartCount = $product->hearts()->count();
+
+        //コメント数を取得
+        $commentCount = $product->comments()->count();
+
+        //ログインユーザーがこの商品にいいねしているか判定
+        $isHearted = false;
+
+        if (auth()->check()) {
+            $isHearted = $product->hearts()
+                ->where('user_id', auth()->id())
+                ->exists();
+        }
+
+
+
+
+
+
+        return view('products.show', compact('product', 'heartCount', 'commentCount','isHearted'));
     }
 
 
@@ -218,6 +266,43 @@ class ProductController extends Controller
 
         // 修正: 購入画面へ戻る
         return redirect()->route('products.purchase', $product->id);
+    }
+
+
+    //商品いいね登録・解除
+    public function heart(Product $product)
+    {
+        $user = Auth::user();
+
+        //すでにいいねしているか確認
+        $heart = Heart::where('user_id', $user->id)
+            ->where('product_id', $product->id)
+            ->first();
+
+        if ($heart) {
+            //いいね済みなら削除
+            $heart->delete();
+        } else {
+            //未いいねなら登録
+            Heart::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+            ]);
+        }
+
+        return redirect()->route('products.show', $product->id);
+    }
+
+    //コメント投稿
+    public function comment(CommentRequest $request, Product $product)
+    {
+        Comment::create([
+            'user_id' => auth()->id(),
+            'product_id' => $product->id,
+            'comment' => $request->comment,
+        ]);
+
+        return redirect()->route('products.show', $product->id);
     }
 
 

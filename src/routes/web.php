@@ -43,22 +43,25 @@ Route::middleware('auth')->group(function () {
     Route::post('/mypage/profile', [ProfileController::class, 'store'])->name('profile.store');
     //プロフィール更新
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     //商品出品画面
     Route::get('/sell', [ProductController::class, 'create'])->name('products.create');
     //商品出品保存
     Route::post('/sell', [ProductController::class, 'store'])->name('products.store');
-    // 商品購入画面
+    //商品購入画面
     Route::get('/purchase/{product}', [ProductController::class, 'purchase'])->name('products.purchase');
-    // 商品購入画面
+    //商品購入画面
     Route::get('/purchase/{product}', [ProductController::class, 'purchase'])->name('products.purchase');
-
-    // 追加: 商品購入保存
+    //商品いいね登録・解除
+    Route::post('/item/{product}/heart', [ProductController::class, 'heart'])->name('products.heart');
+    //商品購入保存
     Route::post('/purchase/{product}', [ProductController::class, 'purchaseStore'])->name('products.purchase.store');
 
-    // 追加: 送付先住所変更画面
+    //送付先住所変更画面
     Route::get('/purchase/address/{product}', [ProductController::class, 'addressEdit'])->name('purchase.address.edit');
-
-    // 修正: 送付先住所更新
+    //送付先住所更新
     Route::post('/purchase/address/{product}', [ProductController::class, 'addressUpdate'])->name('purchase.address.update');
+    //コメント投稿
+    Route::post('/item/{product}/comment', [ProductController::class, 'comment'])->name('products.comment');
 });
 

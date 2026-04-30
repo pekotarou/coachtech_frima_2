@@ -50,5 +50,16 @@ class Product extends Model
     {
         return $this->belongsTo(Order::class);
     }
-    
+
+    //商品は複数のいいねを持つ
+    public function hearts()
+    {
+        return $this->hasMany(Heart::class);
+    }
+    //商品は複数のコメントを持つ
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

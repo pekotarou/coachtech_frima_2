@@ -58,15 +58,28 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
-    // 追加: ユーザーが購入した注文
+    // ユーザーが購入した注文
     public function boughtOrders()
     {
         return $this->hasMany(Order::class, 'buyer_id');
     }
 
-    // 追加: ユーザーが販売した注文
+    //ユーザーが販売した注文
     public function soldOrders()
     {
         return $this->hasMany(Order::class, 'seller_id');
     }
+
+    //ユーザーは複数のいいねを持つ
+    public function hearts()
+    {
+        return $this->hasMany(Heart::class);
+    }
+
+    //ユーザーは複数のコメントを持つ
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

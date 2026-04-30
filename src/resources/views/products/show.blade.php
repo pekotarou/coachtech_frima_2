@@ -40,18 +40,56 @@
         </p>
 
         <p class="product-detail__price">
-            ¥{{ number_format($product->price) }} <span class="product-detail__tax">(税込)</span>
+            <span class="product-detail__price-mark">¥</span>{{ number_format($product->price) }} <span class="product-detail__tax">(税込)</span>
         </p>
 
         <div class="product-detail__actions">
             <div class="product-detail__action">
-                <span class="product-detail__icon">♡</span>
-                <span class="product-detail__count">0</span>
+                @auth
+                    {{-- 修正: ログイン済みならハートを押せる --}}
+                    <form class="product-detail__heart-form" action="{{ route('products.heart', $product->id) }}" method="POST">
+                        @csrf
+
+                        <button class="product-detail__heart-button" type="submit">
+                            @if ($isHearted)
+                                <img
+                                    class="product-detail__heart-icon"
+                                    src="{{ asset('images/icons/heart-active.png') }}"
+                                    alt="いいね済み"
+                                >
+                            @else
+                                <img
+                                    class="product-detail__heart-icon"
+                                    src="{{ asset('images/icons/heart-default.png') }}"
+                                    alt="いいね"
+                                >
+                            @endif
+                        </button>
+                    </form>
+                @else
+                    {{-- 修正: 未ログインなら押せない表示だけ --}}
+                    <img
+                        class="product-detail__heart-icon"
+                        src="{{ asset('images/icons/heart-default.png') }}"
+                        alt="いいね"
+                    >
+                @endauth
+
+                <span class="product-detail__count">
+                    {{ $heartCount }}
+                </span>
             </div>
 
             <div class="product-detail__action">
-                <span class="product-detail__icon">💬</span>
-                <span class="product-detail__count">0</span>
+                <img
+                    class="product-detail__comment-count-icon"
+                    src="{{ asset('images/icons/comment.png') }}"
+                    alt="コメント"
+                >
+
+                <span class="product-detail__count">
+                    {{ $commentCount }}
+                </span>
             </div>
         </div>
 
@@ -97,28 +135,66 @@
         </section>
 
         <section class="product-detail__section">
-            <h2 class="product-detail__section-title">コメント</h2>
+            <h2 class="product-detail__section-title product-detail__section-title--comment">
+                コメント({{ $commentCount }})
+            </h2>
 
-            <div class="product-detail__comment-user">
-                <div class="product-detail__comment-icon"></div>
-                <span class="product-detail__comment-name">
-                    {{ $product->user->profile->name ?? $product->user->name ?? 'ユーザー' }}
-                </span>
+            {{--コメント一覧--}}
+            <div class="product-detail__comments">
+                @forelse ($product->comments as $comment)
+                    <div class="product-detail__comment-item">
+                        <div class="product-detail__comment-user">
+                            <div class="product-detail__comment-icon">
+                                @if ($comment->user->profile && $comment->user->profile->image)
+                                    <img
+                                        class="product-detail__comment-user-image"
+                                        src="{{ asset('storage/' . $comment->user->profile->image) }}"
+                                        alt="コメント投稿者の画像"
+                                    >
+                                @endif
+                            </div>
+                            <span class="product-detail__comment-name">
+                                {{ $comment->user->profile->name ?? $comment->user->name ?? 'ユーザー' }}
+                            </span>
+                        </div>
+                        <div class="product-detail__comment-box">
+                            {{ $comment->comment }}
+                        </div>
+                    </div>
+                @empty
+                    <p class="product-detail__comment-empty">
+                        コメントはまだありません。
+                    </p>
+                @endforelse
             </div>
 
-            <div class="product-detail__comment-box">
-                コメントはまだありません。
-            </div>
 
-            <label class="product-detail__comment-label" for="comment">
-                商品へのコメント
-            </label>
 
-            <textarea class="product-detail__comment-textarea" id="comment" name="comment"></textarea>
+            <form class="product-detail__comment-form" action="{{ route('products.comment', $product->id) }}" method="POST">
+                @csrf
 
-            <button class="product-detail__comment-button" type="button">
-                コメントを送信する
-            </button>
+                <label class="product-detail__comment-label" for="comment">
+                    商品へのコメント
+                </label>
+
+                <textarea
+                    class="product-detail__comment-textarea"
+                    id="comment"
+                    name="comment"
+                >{{ old('comment') }}</textarea>
+
+                @foreach ($errors->get('comment') as $message)
+                    <p class="product-detail__error">{{ $message }}</p>
+                @endforeach
+
+                <button class="product-detail__comment-button" type="submit">
+                    コメントを送信する
+                </button>
+            </form>
+
+
+
+
         </section>
     </div>
 </div>
