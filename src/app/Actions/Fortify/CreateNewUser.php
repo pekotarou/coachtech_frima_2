@@ -20,7 +20,7 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:20'],
             'email' => [
                 'required',
                 'string',
@@ -32,7 +32,7 @@ class CreateNewUser implements CreatesNewUsers
         ], [
             // 修正: 日本語エラーメッセージ
             'name.required' => 'お名前を入力してください。',
-            'name.max' => 'お名前は255文字以内で入力してください。',
+            'name.max' => 'お名前は20文字以内で入力してください。',
 
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => 'メールアドレスはメール形式で入力してください。',

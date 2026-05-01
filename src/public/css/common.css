@@ -16,7 +16,7 @@ body {
 }
 
 .header__inner {
-    max-width: 1230px;
+    width: 100%;/*max-width: 1230px;　見た目どっちがより仕様書に近いかコーチに確認する*/
     height: 100%;
     margin: 0 auto;
     padding: 0 30px 0 10px;
