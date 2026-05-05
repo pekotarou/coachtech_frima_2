@@ -23,7 +23,7 @@
                 type="text"
                 name="zip_code"
                 id="zip_code"
-                value="{{ old('zip_code') }}"
+                value="{{ old('zip_code', optional($user->profile)->zip_code) }}"
             >
 
             @foreach ($errors->get('zip_code') as $message)
@@ -41,7 +41,7 @@
                 type="text"
                 name="residence"
                 id="residence"
-                value="{{ old('residence') }}"
+                value="{{ old('residence', optional($user->profile)->residence) }}"
             >
 
             @foreach ($errors->get('residence') as $message)
@@ -59,7 +59,7 @@
                 type="text"
                 name="building"
                 id="building"
-                value="{{ old('building') }}"
+                value="{{ old('building', optional($user->profile)->building) }}"
             >
 
             @foreach ($errors->get('building') as $message)

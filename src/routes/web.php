@@ -33,7 +33,7 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-//ログイン済みユーザーだけ使えるプロフィール関連
+//ログイン済みユーザーだけ使える動き
 Route::middleware('auth')->group(function () {
     // プロフィール画面
     Route::get('/mypage', [ProfileController::class, 'show'])->name('profile.show');

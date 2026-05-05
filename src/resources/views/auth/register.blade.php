@@ -33,8 +33,11 @@
         <div class="auth__group">
             <label class="auth__label">パスワード</label>
             <input class="auth__input" type="password" name="password">
-            @foreach ($errors->get('password') as $message)
-                <p class="auth__error">{{ $message }}</p>
+           @foreach ($errors->get('password') as $message)
+                {{--「パスワードと一致しません」以外のエラーだけ表示 --}}
+                @if ($message !== 'パスワードと一致しません')
+                    <p class="auth__error">{{ $message }}</p>
+                @endif
             @endforeach
         </div>
 
@@ -42,6 +45,12 @@
         <div class="auth__group">
             <label class="auth__label">確認用パスワード</label>
             <input class="auth__input" type="password" name="password_confirmation">
+            @foreach ($errors->get('password') as $message)
+                {{--「パスワードと一致しません」のエラーだけ表示 --}}
+                @if ($message == 'パスワードと一致しません')
+                    <p class="auth__error">{{ $message }}</p>
+                @endif
+            @endforeach
         </div>
 
         <button class="auth__button" type="submit">登録する</button>
