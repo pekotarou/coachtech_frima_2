@@ -15,6 +15,7 @@ use App\Http\Requests\AddressRequest;
 use App\Models\Heart;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
+use Stripe\StripeClient;
 
 
 class ProductController extends Controller
@@ -173,36 +174,37 @@ class ProductController extends Controller
         //return view('products.purchase', compact('product', 'user'));
     }
 
-    // 商品購入保存
+
+    // Stripe Checkoutへ接続
     public function purchaseStore(PurchaseRequest $request, Product $product)
     {
         $user = Auth::user();
-        // 修正: プロフィールが未設定なら購入できない
+
+        // プロフィールが未設定なら購入できない
         if (!$user->profile) {
             return redirect()
                 ->route('profile.edit')
                 ->with('error', '購入前にプロフィールを設定してください。');
         }
 
-        // 修正: すでに購入済みの商品は購入できないようにする
+        // すでに購入済みの商品は購入できない
         if ($product->order_id) {
             return redirect()
                 ->route('products.show', $product->id)
                 ->with('error', 'この商品はすでに購入されています。');
         }
 
-        // 修正: 自分が出品した商品は購入できないようにする
+        // 自分が出品した商品は購入できない
         if ($product->user_id === $user->id) {
             return redirect()
                 ->route('products.show', $product->id)
                 ->with('error', '自分が出品した商品は購入できません。');
         }
 
-
-        // 修正: sessionの送付先住所を取得
+        // sessionの送付先住所を取得
         $address = session('purchase_address.' . $product->id);
 
-        // 修正: sessionに住所がなければプロフィール住所を使う
+        // sessionに住所がなければプロフィール住所を使う
         if (!$address && $user->profile) {
             $address = [
                 'zip_code' => $user->profile->zip_code,
@@ -211,7 +213,7 @@ class ProductController extends Controller
             ];
         }
 
-        // 修正: 住所がない場合は購入できない
+        // 住所がない場合は購入できない
         if (!$address) {
             return redirect()
                 ->route('purchase.address.edit', $product->id)
@@ -220,29 +222,45 @@ class ProductController extends Controller
                 ]);
         }
 
+        // 支払い方法をStripe用に変換
+        if ($request->payment === 'カード払い' || $request->payment === 'カード支払い') {
+            $paymentMethodTypes = ['card'];
+        } else {
+            $paymentMethodTypes = ['konbini'];
+        }
 
-        // 修正: ordersテーブルに購入情報を保存
-        $order = Order::create([
-            'product_id' => $product->id,
-            'buyer_id' => $user->id,
-            'payment' => $request->payment,
-            'seller_id' => $product->user_id,
-            //購入時点の送付先住所をordersに保存
-            'zip_code' => $address['zip_code'],
-            'residence' => $address['residence'],
-            'building' => $address['building'],
+        // Stripe Checkout Sessionを作成
+        $stripe = new StripeClient(config('services.stripe.secret'));
+
+        $checkoutSession = $stripe->checkout->sessions->create([
+            'payment_method_types' => $paymentMethodTypes,
+            'mode' => 'payment',
+            'customer_email' => $user->email,
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'product_data' => [
+                            'name' => $product->name,
+                        ],
+                        'unit_amount' => $product->price,
+                    ],
+                    'quantity' => 1,
+                ],
+            ],
+            'success_url' => route('products.purchase.success', $product->id) . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('products.purchase.cancel', $product->id),
+            'metadata' => [
+                'product_id' => $product->id,
+                'buyer_id' => $user->id,
+                'seller_id' => $product->user_id,
+                'payment' => $request->payment,
+            ],
         ]);
 
-        // 修正: products.order_id に購入情報IDを保存
-        $product->update([
-            'order_id' => $order->id,
-        ]);
+        return redirect($checkoutSession->url);
+}
 
-        // 追加: 購入完了後、この商品の一時住所を削除
-        session()->forget('purchase_address.' . $product->id);
-        // 修正: 購入後は商品一覧へ戻る
-        return redirect()->route('products.index');
-    }
 
     // 送付先住所変更画面
     public function addressEdit(Product $product)
@@ -303,6 +321,85 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('products.show', $product->id);
+    }
+
+
+
+    // Stripe決済成功後
+    public function purchaseSuccess(Request $request, Product $product)
+    {
+        $user = Auth::user();
+
+        // 修正: すでに購入済みなら二重登録しない
+        if ($product->order_id) {
+            return redirect()->route('products.index');
+        }
+
+        // 修正: Stripeのsession_idを取得
+        $sessionId = $request->query('session_id');
+
+        if (!$sessionId) {
+            return redirect()
+                ->route('products.purchase', $product->id)
+                ->withErrors([
+                    'payment' => '決済情報を確認できませんでした。',
+                ]);
+        }
+
+        // 修正: StripeからCheckout Sessionを取得
+        $stripe = new StripeClient(config('services.stripe.secret'));
+        $checkoutSession = $stripe->checkout->sessions->retrieve($sessionId);
+
+        // 修正: sessionの送付先住所を取得
+        $address = session('purchase_address.' . $product->id);
+
+        // 修正: sessionに住所がなければプロフィール住所を使う
+        if (!$address && $user->profile) {
+            $address = [
+                'zip_code' => $user->profile->zip_code,
+                'residence' => $user->profile->residence,
+                'building' => $user->profile->building,
+            ];
+        }
+
+        if (!$address) {
+            return redirect()
+                ->route('purchase.address.edit', $product->id)
+                ->withErrors([
+                    'zip_code' => '送付先住所を入力してください。',
+                ]);
+        }
+
+        // 修正: ordersテーブルに購入情報を保存
+        $order = Order::create([
+            'product_id' => $product->id,
+            'buyer_id' => $user->id,
+            'payment' => $checkoutSession->metadata->payment ?? '未設定',
+            'seller_id' => $product->user_id,
+            'zip_code' => $address['zip_code'],
+            'residence' => $address['residence'],
+            'building' => $address['building'],
+        ]);
+
+        // 修正: products.order_id に購入情報IDを保存
+        $product->update([
+            'order_id' => $order->id,
+        ]);
+
+        // 修正: 購入完了後、この商品の一時住所を削除
+        session()->forget('purchase_address.' . $product->id);
+
+        return redirect()->route('products.index');
+    }
+
+    // Stripe決済キャンセル後
+    public function purchaseCancel(Product $product)
+    {
+        return redirect()
+            ->route('products.purchase', $product->id)
+            ->withErrors([
+                'payment' => '決済がキャンセルされました。',
+            ]);
     }
 
 
