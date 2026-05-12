@@ -63,3 +63,38 @@
     color: #ff0000;
     font-size: 14px;
 }
+
+
+.auth__message {
+    margin: 60px 0 32px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.8;
+}
+
+.auth__button-link {
+    display: block;
+    width: 220px;
+    margin: 0 auto 32px;
+    padding: 12px;
+    border: 1px solid #5f5f5f;
+    border-radius: 10px;
+    background: #eeeeee;
+    color: #000000;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth__resend-form {
+    text-align: center;
+}
+
+.auth__resend-button {
+    border: none;
+    background: transparent;
+    color: #0073cc;
+    font-size: 14px;
+    cursor: pointer;
+}

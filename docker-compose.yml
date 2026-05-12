@@ -13,7 +13,7 @@ services:
     build: ./docker/php
     volumes:
       - ./src:/var/www/
-     # 修正: ホスト側の php.ini をコンテナ内のPHP設定として読み込ませる
+    # 修正: ホスト側の php.ini をコンテナ内のPHP設定として読み込ませる
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
   mysql:
@@ -29,6 +29,13 @@ services:
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

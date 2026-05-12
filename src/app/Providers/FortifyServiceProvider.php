@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use App\Http\Responses\LoginResponse;
 
+//メール認証
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+use App\Http\Responses\RegisterResponse;
+
 
 
 class FortifyServiceProvider extends ServiceProvider
@@ -31,6 +35,8 @@ class FortifyServiceProvider extends ServiceProvider
     {
         //ログイン成功後の遷移先をカスタム
         $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
+        //会員登録後の遷移先をメール認証誘導画面にする
+        $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
 
     }
 
@@ -75,15 +81,14 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
 
-
-
-
-
-
-
         //ログイン画面
         Fortify::loginView(function () {
             return view('auth.login');
+        });
+
+        // メール認証誘導画面
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify-email');
         });
     }
 }
