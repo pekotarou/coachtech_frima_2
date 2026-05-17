@@ -129,7 +129,7 @@
     height: 40px;
     border-radius: 50%;
     background-color: #d9d9d9;
-    overflow: hidden;/* 追加: 丸い枠から画像がはみ出ないようにする */
+    overflow: hidden;/*丸い枠から画像がはみ出ないようにする */
 }
 
 .product-detail__comment-user-image {

@@ -30,7 +30,7 @@ class CreateItemsTable extends Migration
             //商品画像
             $table->string('image')->nullable();
 
-            // 修正: 売り切れ表示用
+            //売り切れ表示用
             $table->boolean('is_sold')->default(false);
 
             $table->timestamps();

@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    {{-- 修正: マイページ用タブ --}}
+    {{--マイページ用タブ --}}
     <div class="profile-show__tabs">
         <a
             class="profile-show__tab {{ $page === 'sell' ? 'profile-show__tab--active' : '' }}"
@@ -48,7 +48,7 @@
         </a>
     </div>
 
-    {{-- 修正: 商品一覧 --}}
+    {{--商品一覧 --}}
     <div class="products__list profile-show__products">
         @forelse ($products as $product)
             <a class="products__card" href="{{ route('products.show', $product->id) }}">

@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/mypage/profile'; // 修正: 登録後はプロフィール設定へ
+    public const HOME = '/mypage/profile'; //登録後はプロフィール設定へ
 
     /**
      * The controller namespace for the application.

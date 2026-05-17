@@ -24,7 +24,7 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
        return [
-            // 修正: 支払い方法は選択必須
+            //支払い方法は選択必須
             'payment' => ['required'],
         ];
     }

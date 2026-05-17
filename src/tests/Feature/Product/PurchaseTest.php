@@ -88,7 +88,7 @@ class PurchaseTest extends TestCase
     {
         $seller = $this->createVerifiedUser();
 
-        // 修正: ログインユーザー自身が出品した商品
+        //ログインユーザー自身が出品した商品
         $product = $this->createProduct($seller);
 
         $response = $this->actingAs($seller)->post('/purchase/' . $product->id, [

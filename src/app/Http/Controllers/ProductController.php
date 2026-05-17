@@ -111,7 +111,7 @@ class ProductController extends Controller
         // 商品出品画面
     public function create()
     {
-        // 修正: 出品画面で使うカテゴリーと商品の状態を取得
+        //出品画面で使うカテゴリーと商品の状態を取得
         $categories = Category::all();
         $statuses = Status::all();
 
@@ -121,18 +121,18 @@ class ProductController extends Controller
     // 商品出品保存
     public function store(ExhibitionRequest $request)
     {
-        // 修正: 商品画像を storage/app/public/products に保存
+        //商品画像を storage/app/public/products に保存
         $imagePath = $request->file('image')->store('products', 'public');
 
-        // 修正: ブランド名が空なら「なし」として保存する
+        //ブランド名が空なら「なし」として保存する
         $brandName = $request->brand_name ?: 'なし';
 
-        // 修正: brandsテーブルから取得。なければ作成
+        //brandsテーブルから取得。なければ作成
         $brand = Brand::firstOrCreate([
             'name' => $brandName,
         ]);
 
-        // 修正: productsテーブルに商品を保存
+        //productsテーブルに商品を保存
         $product = Product::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -144,10 +144,10 @@ class ProductController extends Controller
             'order_id' => null,
         ]);
 
-        // 修正: product_categoryテーブルに複数カテゴリーを保存
+        //product_categoryテーブルに複数カテゴリーを保存
         $product->categories()->attach($request->category_ids);
 
-        // 修正: 出品後は商品一覧画面へ
+        //出品後は商品一覧画面へ
         return redirect()->route('products.index');
     }
 
@@ -156,13 +156,13 @@ class ProductController extends Controller
     {
         $user = Auth::user();
 
-        // 修正: 商品情報にブランド・状態・出品者も読み込む
+        //商品情報にブランド・状態・出品者も読み込む
         $product->load(['brand', 'status', 'user']);
 
-        // 修正: sessionに保存された送付先住所を取得
+        //sessionに保存された送付先住所を取得
         $address = session('purchase_address.' . $product->id);
 
-        // 修正: sessionに住所がなければ、プロフィール住所を使う
+        //sessionに住所がなければ、プロフィール住所を使う
         if (!$address && $user->profile) {
             $address = [
                 'zip_code' => $user->profile->zip_code,
@@ -273,7 +273,7 @@ class ProductController extends Controller
     // 送付先住所更新
     public function addressUpdate(AddressRequest $request, Product $product)
     {
-        // 修正: 購入前の送付先住所をsessionに保存
+        //購入前の送付先住所をsessionに保存
         session([
             'purchase_address.' . $product->id => [
                 'zip_code' => $request->zip_code,
@@ -282,7 +282,7 @@ class ProductController extends Controller
             ],
         ]);
 
-        // 修正: 購入画面へ戻る
+        //購入画面へ戻る
         return redirect()->route('products.purchase', $product->id);
     }
 
@@ -330,12 +330,12 @@ class ProductController extends Controller
     {
         $user = Auth::user();
 
-        // 修正: すでに購入済みなら二重登録しない
+        //すでに購入済みなら二重登録しない
         if ($product->order_id) {
             return redirect()->route('products.index');
         }
 
-        // 修正: Stripeのsession_idを取得
+        //Stripeのsession_idを取得
         $sessionId = $request->query('session_id');
 
         if (!$sessionId) {
@@ -346,14 +346,14 @@ class ProductController extends Controller
                 ]);
         }
 
-        // 修正: StripeからCheckout Sessionを取得
+        //StripeからCheckout Sessionを取得
         $stripe = new StripeClient(config('services.stripe.secret'));
         $checkoutSession = $stripe->checkout->sessions->retrieve($sessionId);
 
-        // 修正: sessionの送付先住所を取得
+        //sessionの送付先住所を取得
         $address = session('purchase_address.' . $product->id);
 
-        // 修正: sessionに住所がなければプロフィール住所を使う
+        //sessionに住所がなければプロフィール住所を使う
         if (!$address && $user->profile) {
             $address = [
                 'zip_code' => $user->profile->zip_code,
@@ -370,7 +370,7 @@ class ProductController extends Controller
                 ]);
         }
 
-        // 修正: ordersテーブルに購入情報を保存
+        //ordersテーブルに購入情報を保存
         $order = Order::create([
             'product_id' => $product->id,
             'buyer_id' => $user->id,
@@ -381,12 +381,12 @@ class ProductController extends Controller
             'building' => $address['building'],
         ]);
 
-        // 修正: products.order_id に購入情報IDを保存
+        //products.order_id に購入情報IDを保存
         $product->update([
             'order_id' => $order->id,
         ]);
 
-        // 修正: 購入完了後、この商品の一時住所を削除
+        //購入完了後、この商品の一時住所を削除
         session()->forget('purchase_address.' . $product->id);
 
         return redirect()->route('products.index');

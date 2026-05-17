@@ -14,7 +14,7 @@ class AddAddressColumnsToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-             // 修正: 購入時点の送付先住所
+             //購入時点の送付先住所
             $table->string('zip_code')->after('seller_id');
             $table->text('residence')->after('zip_code');
             $table->text('building')->nullable()->after('residence');

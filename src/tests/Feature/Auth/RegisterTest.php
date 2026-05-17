@@ -89,13 +89,13 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password',
         ]);
 
-        // 修正: usersテーブルに会員情報が保存されているか確認
+        //usersテーブルに会員情報が保存されているか確認
         $this->assertDatabaseHas('users', [
             'name' => 'テストユーザー',
             'email' => 'test@example.com',
         ]);
 
-        // 修正: メール認証誘導画面へ遷移するか確認
+        //メール認証誘導画面へ遷移するか確認
         $response->assertRedirect(route('verification.notice'));
     }
 }

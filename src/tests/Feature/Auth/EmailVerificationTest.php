@@ -30,10 +30,10 @@ class EmailVerificationTest extends TestCase
 
         $this->assertNotNull($user);
 
-        // 修正: 認証メールが送信されているか確認
+        //認証メールが送信されているか確認
         Notification::assertSentTo($user, VerifyEmail::class);
 
-        // 修正: 会員登録後はメール認証誘導画面へ遷移
+        //会員登録後はメール認証誘導画面へ遷移
         $response->assertRedirect(route('verification.notice'));
     }
 
@@ -52,7 +52,7 @@ class EmailVerificationTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
 
-        // 修正: 未認証ユーザーはメール認証誘導画面へ
+        //未認証ユーザーはメール認証誘導画面へ
         $response->assertRedirect(route('verification.notice'));
     }
 
@@ -71,7 +71,7 @@ class EmailVerificationTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
 
-        // 修正: 認証済みかつプロフィール未設定ならプロフィール設定画面へ
+        //認証済みかつプロフィール未設定ならプロフィール設定画面へ
         $response->assertRedirect(route('profile.edit'));
     }
 }

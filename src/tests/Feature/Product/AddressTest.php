@@ -97,10 +97,10 @@ class AddressTest extends TestCase
             'building' => 'サンプルマンション303',
         ]);
 
-        // 修正: 更新後は購入画面へ戻る
+        //更新後は購入画面へ戻る
         $response->assertRedirect(route('products.purchase', $product->id));
 
-        // 修正: sessionに送付先住所が保存されているか確認
+        //sessionに送付先住所が保存されているか確認
         $this->assertEquals(
             [
                 'zip_code' => '987-6543',

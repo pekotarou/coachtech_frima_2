@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 
-// 修正: ProfileRequest 1つに統一
+//ProfileRequest 1つに統一
 use App\Http\Requests\ProfileRequest;
 use App\Models\Product;
 use App\Models\Order;
@@ -47,20 +47,20 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // 修正: マイページのタブ判定
+        //マイページのタブ判定
         // /mypage?page=sell → 出品した商品
         // /mypage?page=buy  → 購入した商品
         $page = request()->query('page', 'sell');
 
         if ($page === 'buy') {
-            // 修正: ログインユーザーが購入した商品を取得
+            //ログインユーザーが購入した商品を取得
             $products = Product::whereHas('order', function ($query) use ($user) {
                 $query->where('buyer_id', $user->id);
             })
             ->latest()
             ->get();
         } else {
-            // 修正: ログインユーザーが出品した商品を取得
+            //ログインユーザーが出品した商品を取得
             $products = Product::where('user_id', $user->id)
                 ->latest()
                 ->get();
@@ -76,12 +76,12 @@ class ProfileController extends Controller
     {
         $profile = Auth::user()->profile;
 
-        // 修正: プロフィール未登録なら初回設定画面
+        //プロフィール未登録なら初回設定画面
         if (!$profile) {
             return view('profile.create');
         }
 
-        // 修正: プロフィール登録済みなら編集画面
+        //プロフィール登録済みなら編集画面
         return view('profile.edit', compact('profile'));
     }
 
@@ -97,12 +97,12 @@ class ProfileController extends Controller
             'building' => $request->building,
         ];
 
-        // 修正: 編集時は画像が選択された場合だけ更新
+        //編集時は画像が選択された場合だけ更新
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('profiles', 'public');
         }
 
-        // 修正: プロフィールがあれば更新、なければ作成
+        //プロフィールがあれば更新、なければ作成
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             $data

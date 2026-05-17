@@ -10,12 +10,12 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        // 修正: 商品データの出品者として使うテストユーザー
+        //商品データの出品者として使うテストユーザー
         User::create([
             'name' => 'テストユーザー',
             'email' => 'test@example.com',
 
-            // 修正: パスワードは必ずハッシュ化する
+            //パスワードは必ずハッシュ化する
             // ログイン時のパスワードは password
             'password' => Hash::make('password'),
         ]);

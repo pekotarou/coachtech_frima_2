@@ -45,7 +45,7 @@ class FortifyServiceProvider extends ServiceProvider
         //会員登録時に使うユーザー作成クラスを指定
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        // 修正: 開発中だけログイン失敗回数の上限を増やす（不要になったら削除）
+        //開発中だけログイン失敗回数の上限を増やす（不要になったら削除）
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
 

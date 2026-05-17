@@ -46,7 +46,7 @@
         <div class="product-detail__actions">
             <div class="product-detail__action">
                 @auth
-                    {{-- 修正: ログイン済みならハートを押せる --}}
+                    {{--ログイン済みならハートを押せる --}}
                     <form class="product-detail__heart-form" action="{{ route('products.heart', $product->id) }}" method="POST">
                         @csrf
 
@@ -67,7 +67,7 @@
                         </button>
                     </form>
                 @else
-                    {{-- 修正: 未ログインなら押せない表示だけ --}}
+                    {{--未ログインなら押せない表示だけ --}}
                     <img
                         class="product-detail__heart-icon"
                         src="{{ asset('images/icons/heart-default.png') }}"

@@ -8,18 +8,18 @@
 <div class="profile-create">
     <h1 class="profile-create__title">プロフィール設定</h1>
 
-    {{-- 修正: 更新処理なので profile.update に送信 --}}
+    {{--更新処理なので profile.update に送信 --}}
     <form class="profile-create__form" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        {{-- 修正: PATCHメソッドで更新処理にする --}}
+        {{--PATCHメソッドで更新処理にする --}}
         @method('PATCH')
 
         {{-- プロフィール画像 --}}
         <div class="profile-create__image-area">
             <div class="profile-create__image-preview">
                 @if ($profile && $profile->image)
-                    {{-- 修正: 登録済み画像を表示 --}}
+                    {{--登録済み画像を表示 --}}
                     <img
                         id="preview"
                         class="profile-create__image"
@@ -51,7 +51,7 @@
         <div class="profile-create__group">
             <label class="profile-create__label" for="name">ユーザー名</label>
 
-            {{-- 修正: oldがなければ登録済みの値を表示 --}}
+            {{--oldがなければ登録済みの値を表示 --}}
             <input
                 class="profile-create__input"
                 type="text"
@@ -69,7 +69,7 @@
         <div class="profile-create__group">
             <label class="profile-create__label" for="zip_code">郵便番号</label>
 
-            {{-- 修正: oldがなければ登録済みの値を表示 --}}
+            {{--oldがなければ登録済みの値を表示 --}}
             <input
                 class="profile-create__input"
                 type="text"
@@ -87,7 +87,7 @@
         <div class="profile-create__group">
             <label class="profile-create__label" for="residence">住所</label>
 
-            {{-- 修正: oldがなければ登録済みの値を表示 --}}
+            {{--oldがなければ登録済みの値を表示 --}}
             <input
                 class="profile-create__input"
                 type="text"
@@ -105,7 +105,7 @@
         <div class="profile-create__group">
             <label class="profile-create__label" for="building">建物名</label>
 
-            {{-- 修正: oldがなければ登録済みの値を表示 --}}
+            {{--oldがなければ登録済みの値を表示 --}}
             <input
                 class="profile-create__input"
                 type="text"

@@ -14,13 +14,13 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
-            // 修正: 郵便番号はハイフンありの8文字 例: 123-4567
+            //郵便番号はハイフンありの8文字 例: 123-4567
             'zip_code' => ['required', 'regex:/^\d{3}-\d{4}$/'],
 
-            // 修正: 住所は必須
+            //住所は必須
             'residence' => ['required', 'string', 'max:255'],
 
-            // 修正: 建物名は任意
+            //建物名は任意
             'building' => ['nullable', 'string', 'max:255'],
         ];
     }

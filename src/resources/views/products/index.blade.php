@@ -39,7 +39,7 @@
                         </div>
                     @endif
 
-                    {{-- 修正: order_id があれば購入済み表示 --}}
+                    {{--order_id があれば購入済み表示 --}}
                     @if ($product->order_id)
                         <span class="products__sold">Sold</span>
                     @endif

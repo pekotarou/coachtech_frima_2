@@ -41,7 +41,7 @@ class ProductDetailTest extends TestCase
             'order_id' => null,
         ]);
 
-        // 修正: 商品にカテゴリーを紐づける
+        //商品にカテゴリーを紐づける
         $product->categories()->attach($category->id);
 
         return $product;

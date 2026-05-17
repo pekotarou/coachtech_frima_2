@@ -23,16 +23,16 @@ class ProfileRequest extends FormRequest
      */
     public function rules()
     {
-        // 修正: 初回登録は画像必須、編集時は画像任意
+        //初回登録は画像必須、編集時は画像任意
         $imageRule = $this->isMethod('patch')
             ? ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
             : ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'];
 
         return [
-            // 修正: ユーザー名は必須・20文字以内
+            //ユーザー名は必須・20文字以内
             'name' => ['required', 'string', 'max:20'],
 
-            // 修正: 郵便番号はハイフンありの8文字 例: 123-4567
+            //郵便番号はハイフンありの8文字 例: 123-4567
             'zip_code' => ['required', 'string', 'regex:/^\d{3}-\d{4}$/'],
 
             // 住所は必須
@@ -41,7 +41,7 @@ class ProfileRequest extends FormRequest
             // 建物名は任意
             'building' => ['nullable', 'string', 'max:255'],
 
-            // 修正: 初回登録/編集で画像ルールを切り替え
+            //初回登録/編集で画像ルールを切り替え
             'image' => $imageRule,
         ];
     }
@@ -70,7 +70,7 @@ class ProfileRequest extends FormRequest
             'image.mimes' => 'プロフィール画像はjpeg、png、jpg形式でアップロードしてください。',
             'image.max' => 'プロフィール画像は2MB以内でアップロードしてください。',
 
-            // 修正: PHP側でアップロード失敗した時用
+            //PHP側でアップロード失敗した時用
             'image.uploaded' => 'プロフィール画像は2MB以内でアップロードしてください。',
         ];
     }
