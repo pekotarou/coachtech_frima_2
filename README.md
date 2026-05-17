@@ -341,7 +341,8 @@ docker compose exec php vendor/bin/phpunit tests/Feature/Auth/RegisterTest.php
 OK (49 tests, 127 assertions)
 ```
 
-※テストケース一覧（https://docs.google.com/spreadsheets/d/1KYQkgTR_dRlplSieF90DU_dFBklgorZKV0ZZNDHkIns/edit?gid=719823434#gid=719823434&range=E31:G32）の、ID9にある以下①と②のテスト内容とテスト手順が逆だと思われましたので、それぞれテスト内容に合うテスト手順にしました。
+※テストケース一覧（https://docs.google.com/spreadsheets/d/1KYQkgTR_dRlplSieF90DU_dFBklgorZKV0ZZNDHkIns/edit?gid=719823434#gid=719823434&range=E31:G32）
+の、ID9にある以下①と②のテスト内容とテスト手順が逆だと思われましたので、それぞれテスト内容に合うテスト手順にしました。
 ①コメントが入力されていない場合、バリデーションメッセージが表示される
 　→1. ユーザーにログインする > 2. 255文字以上のコメントを入力する > 3. コメントボタンを押す"
 ②コメントが255字以上の場合、バリデーションメッセージが表示される
