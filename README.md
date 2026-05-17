@@ -133,9 +133,17 @@ src/storage/app/public/profiles/
 ---
 
 ## テーブル設計
-テーブル設計は以下の画像を参照してください。
-
-![テーブル設計](table_design.png)
+テーブル設計は以下を参照してください。
+![brandsテーブル](テーブル設計/brandsテーブル.png)
+![categoriesテーブル](テーブル設計/categoriesテーブル.png)
+![commentsテーブル](テーブル設計/commentsテーブル.png)
+![heartsテーブル](テーブル設計/heartsテーブル.png)
+![ordersテーブル](テーブル設計/ordersテーブル.png)
+![product_categoryテーブル(中間テーブル)](テーブル設計/product_categoryテーブル(中間テーブル).png)
+![productsテーブル](テーブル設計/productsテーブル.png)
+![profilesテーブル](テーブル設計/profilesテーブル.png)
+![statusesテーブル](テーブル設計/statusesテーブル.png)
+![usersテーブル](テーブル設計/usersテーブル.png)
 
 ---
 
@@ -182,6 +190,11 @@ products/coffee-mill.jpg
 products/makeup-set.jpg
 ```
 
+※テストユーザー1人分を以下にて設定しています。必要に応じて使用するか、使用しない場合は削除してください。
+- パス：src/database/seeders/UserSeeder.php
+- name：テストユーザー
+- email：'test@example.com
+- ログイン時のパスワード：password
 ---
 
 ## メール認証について
@@ -341,12 +354,15 @@ docker compose exec php vendor/bin/phpunit tests/Feature/Auth/RegisterTest.php
 OK (49 tests, 127 assertions)
 ```
 
-※テストケース一覧（https://docs.google.com/spreadsheets/d/1KYQkgTR_dRlplSieF90DU_dFBklgorZKV0ZZNDHkIns/edit?gid=719823434#gid=719823434&range=E31:G32）
+※テストケース一覧（https://docs.google.com/spreadsheets/d/1KYQkgTR_dRlplSieF90DU_dFBklgorZKV0ZZNDHkIns/edit?gid=203296433#gid=203296433&range=E31:F32）
 の、ID9にある以下①と②のテスト内容とテスト手順が逆だと思われましたので、それぞれテスト内容に合うテスト手順にしました。  
 ①コメントが入力されていない場合、バリデーションメッセージが表示される  
 →1. ユーザーにログインする > 2. 255文字以上のコメントを入力する > 3. コメントボタンを押す"  
 ②コメントが255字以上の場合、バリデーションメッセージが表示される  
 →1. ユーザーにログインする > 2. コメントボタンを押す
+
+※PurchaseRequest.php（https://docs.google.com/spreadsheets/d/1KYQkgTR_dRlplSieF90DU_dFBklgorZKV0ZZNDHkIns/edit?gid=574125123#gid=574125123&range=D62:E62）
+の配送先ルールに選択必須と記載がありますが、選択する箇所がないので、配送先の住所の記載を必須にしました。
 
 ---
 
