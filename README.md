@@ -89,7 +89,7 @@ php artisan storage:link
 mkdir -p storage/app/public/products
 ```
 
-9. 商品画像を以下のディレクトリに配置
+9. 以下のディレクトリを作成して商品画像を配置
 ```text
 src/storage/app/public/products/
 ```

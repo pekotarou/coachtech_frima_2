@@ -174,7 +174,7 @@ class ProductStoreTest extends TestCase
             'description' => 'テスト商品の説明です',
             'price' => 1000,
             'status_id' => $status->id,
-            'brand_name' => 'テストブランド', // 修正
+            'brand_name' => 'テストブランド', 
             'user_id' => $user->id,
         ]);
 
