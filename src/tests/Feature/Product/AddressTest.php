@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Profile;
 use App\Models\Status;
@@ -38,10 +37,6 @@ class AddressTest extends TestCase
             'email_verified_at' => now(),
         ]);
 
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
         $status = Status::create([
             'status' => '良好',
         ]);
@@ -52,7 +47,7 @@ class AddressTest extends TestCase
             'price' => 1000,
             'image' => 'products/test.jpg',
             'status_id' => $status->id,
-            'brand_id' => $brand->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $seller->id,
             'order_id' => null,
         ]);
@@ -97,10 +92,8 @@ class AddressTest extends TestCase
             'building' => 'サンプルマンション303',
         ]);
 
-        //更新後は購入画面へ戻る
         $response->assertRedirect(route('products.purchase', $product->id));
 
-        //sessionに送付先住所が保存されているか確認
         $this->assertEquals(
             [
                 'zip_code' => '987-6543',

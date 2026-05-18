@@ -134,7 +134,6 @@ src/storage/app/public/profiles/
 
 ## テーブル設計
 テーブル設計は以下を参照してください。
-![brandsテーブル](テーブル設計/brandsテーブル.png)
 ![categoriesテーブル](テーブル設計/categoriesテーブル.png)
 ![commentsテーブル](テーブル設計/commentsテーブル.png)
 ![heartsテーブル](テーブル設計/heartsテーブル.png)
@@ -166,7 +165,6 @@ ER図は以下の画像を参照してください。
 - ユーザー
 - 商品状態
 - カテゴリー
-- ブランド
 - 商品データ
 
 商品画像はGit管理に含めていないため、以下のディレクトリに画像を配置してください。
@@ -351,7 +349,7 @@ docker compose exec php vendor/bin/phpunit tests/Feature/Auth/RegisterTest.php
 
 ### テスト実行結果
 ```text
-OK (49 tests, 127 assertions)
+OK (49 tests, 126 assertions)
 ```
 
 ※テストケース一覧（https://docs.google.com/spreadsheets/d/1KYQkgTR_dRlplSieF90DU_dFBklgorZKV0ZZNDHkIns/edit?gid=203296433#gid=203296433&range=E31:F32）

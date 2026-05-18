@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Status;
@@ -33,11 +32,7 @@ class ProductStoreTest extends TestCase
             'status' => '良好',
         ]);
 
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
-        return [$category, $status, $brand];
+        return [$category, $status];
     }
 
     public function test_商品出品画面が表示される()
@@ -52,7 +47,7 @@ class ProductStoreTest extends TestCase
     public function test_商品名が未入力の場合はバリデーションメッセージが表示される()
     {
         $user = $this->createVerifiedUser();
-        [$category, $status, $brand] = $this->createMasterData();
+        [$category, $status] = $this->createMasterData();
 
         $response = $this->actingAs($user)->post('/sell', [
             'name' => '',
@@ -70,7 +65,7 @@ class ProductStoreTest extends TestCase
     public function test_商品説明が未入力の場合はバリデーションメッセージが表示される()
     {
         $user = $this->createVerifiedUser();
-        [$category, $status, $brand] = $this->createMasterData();
+        [$category, $status] = $this->createMasterData();
 
         $response = $this->actingAs($user)->post('/sell', [
             'name' => 'テスト商品',
@@ -88,7 +83,7 @@ class ProductStoreTest extends TestCase
     public function test_商品価格が未入力の場合はバリデーションメッセージが表示される()
     {
         $user = $this->createVerifiedUser();
-        [$category, $status, $brand] = $this->createMasterData();
+        [$category, $status] = $this->createMasterData();
 
         $response = $this->actingAs($user)->post('/sell', [
             'name' => 'テスト商品',
@@ -106,7 +101,7 @@ class ProductStoreTest extends TestCase
     public function test_商品画像が未選択の場合はバリデーションメッセージが表示される()
     {
         $user = $this->createVerifiedUser();
-        [$category, $status, $brand] = $this->createMasterData();
+        [$category, $status] = $this->createMasterData();
 
         $response = $this->actingAs($user)->post('/sell', [
             'name' => 'テスト商品',
@@ -123,7 +118,7 @@ class ProductStoreTest extends TestCase
     public function test_カテゴリーが未選択の場合はバリデーションメッセージが表示される()
     {
         $user = $this->createVerifiedUser();
-        [$category, $status, $brand] = $this->createMasterData();
+        [$category, $status] = $this->createMasterData();
 
         $response = $this->actingAs($user)->post('/sell', [
             'name' => 'テスト商品',
@@ -141,7 +136,7 @@ class ProductStoreTest extends TestCase
     public function test_商品状態が未選択の場合はバリデーションメッセージが表示される()
     {
         $user = $this->createVerifiedUser();
-        [$category, $status, $brand] = $this->createMasterData();
+        [$category, $status] = $this->createMasterData();
 
         $response = $this->actingAs($user)->post('/sell', [
             'name' => 'テスト商品',
@@ -161,7 +156,7 @@ class ProductStoreTest extends TestCase
         Storage::fake('public');
 
         $user = $this->createVerifiedUser();
-        [$category, $status, $brand] = $this->createMasterData();
+        [$category, $status] = $this->createMasterData();
 
         $response = $this->actingAs($user)->post('/sell', [
             'name' => 'テスト商品',
@@ -179,10 +174,8 @@ class ProductStoreTest extends TestCase
             'description' => 'テスト商品の説明です',
             'price' => 1000,
             'status_id' => $status->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $user->id,
-        ]);
-        $this->assertDatabaseHas('brands', [
-            'name' => 'テストブランド',
         ]);
 
         $product = Product::where('name', 'テスト商品')->first();

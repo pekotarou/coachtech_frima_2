@@ -36,7 +36,7 @@
         </h1>
 
         <p class="product-detail__brand">
-            {{ $product->brand->name ?? 'ブランドなし' }}
+            {{ $product->brand_name }}
         </p>
 
         <p class="product-detail__price">

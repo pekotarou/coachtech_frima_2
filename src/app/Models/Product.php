@@ -15,7 +15,7 @@ class Product extends Model
         'price',
         'image',
         'status_id',
-        'brand_id',
+        'brand_name',
         'user_id',
         'order_id',
     ];
@@ -33,11 +33,6 @@ class Product extends Model
         return $this->belongsTo(Status::class);
     }
 
-    //商品は1つのブランドに属する
-    public function brand()
-    {
-        return $this->belongsTo(Brand::class);
-    }
 
     //商品は1人のユーザーに属する
     public function user()

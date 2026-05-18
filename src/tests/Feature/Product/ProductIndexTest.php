@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Status;
 use App\Models\User;
@@ -17,10 +16,6 @@ class ProductIndexTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
         $status = Status::create([
             'status' => '良好',
         ]);
@@ -31,7 +26,7 @@ class ProductIndexTest extends TestCase
             'price' => 1000,
             'image' => 'products/test.jpg',
             'status_id' => $status->id,
-            'brand_id' => $brand->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $user->id,
             'order_id' => null,
         ]);
@@ -46,7 +41,7 @@ class ProductIndexTest extends TestCase
 
     public function test_商品一覧画面に商品が表示される()
     {
-        $product = $this->createProduct('テスト商品');
+        $this->createProduct('テスト商品');
 
         $response = $this->get('/');
 

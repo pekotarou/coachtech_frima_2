@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Profile;
@@ -39,10 +38,6 @@ class PurchaseTest extends TestCase
             'email_verified_at' => now(),
         ]);
 
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
         $status = Status::create([
             'status' => '良好',
         ]);
@@ -53,7 +48,7 @@ class PurchaseTest extends TestCase
             'price' => 1000,
             'image' => 'products/test.jpg',
             'status_id' => $status->id,
-            'brand_id' => $brand->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $seller->id,
             'order_id' => null,
         ]);
@@ -88,7 +83,6 @@ class PurchaseTest extends TestCase
     {
         $seller = $this->createVerifiedUser();
 
-        //ログインユーザー自身が出品した商品
         $product = $this->createProduct($seller);
 
         $response = $this->actingAs($seller)->post('/purchase/' . $product->id, [

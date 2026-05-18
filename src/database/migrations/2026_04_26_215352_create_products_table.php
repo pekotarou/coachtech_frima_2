@@ -33,8 +33,8 @@ class CreateProductsTable extends Migration
             //商品状態ID
             $table->foreignId('status_id')->constrained()->cascadeOnDelete();
 
-            //ブランドID
-            $table->foreignId('brand_id')->constrained()->cascadeOnDelete();
+            //ブランド名
+            $table->string('brand_name')->nullable();
 
             //出品者ID
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();

@@ -6,7 +6,6 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ExhibitionRequest;
 use App\Models\Category;
-use App\Models\Brand;
 use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
@@ -76,7 +75,6 @@ class ProductController extends Controller
         //商品詳細で使う関連データを取得
         $product->load([
             'categories', 
-            'brand', 
             'status', 
             'user',
             'hearts',
@@ -127,10 +125,7 @@ class ProductController extends Controller
         //ブランド名が空なら「なし」として保存する
         $brandName = $request->brand_name ?: 'なし';
 
-        //brandsテーブルから取得。なければ作成
-        $brand = Brand::firstOrCreate([
-            'name' => $brandName,
-        ]);
+       
 
         //productsテーブルに商品を保存
         $product = Product::create([
@@ -139,7 +134,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'image' => $imagePath,
             'status_id' => $request->status_id,
-            'brand_id' => $brand->id,
+            'brand_name' => $brandName, //空の場合は「なし」を保存
             'user_id' => Auth::id(),
             'order_id' => null,
         ]);
@@ -156,8 +151,8 @@ class ProductController extends Controller
     {
         $user = Auth::user();
 
-        //商品情報にブランド・状態・出品者も読み込む
-        $product->load(['brand', 'status', 'user']);
+        //商品情報に状態・出品者も読み込む
+        $product->load(['status', 'user']);
 
         //sessionに保存された送付先住所を取得
         $address = session('purchase_address.' . $product->id);

@@ -8,11 +8,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        //関連テーブルを先に作る
+        // 関連テーブルを先に作る
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,
-            BrandSeeder::class,
             StatusSeeder::class,
             ProductSeeder::class,
         ]);

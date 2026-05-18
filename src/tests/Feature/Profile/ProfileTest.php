@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Profile;
 
-use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Profile;
@@ -26,10 +25,6 @@ class ProfileTest extends TestCase
 
     private function createProduct($user, $name)
     {
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
         $status = Status::create([
             'status' => '良好',
         ]);
@@ -40,7 +35,7 @@ class ProfileTest extends TestCase
             'price' => 1000,
             'image' => 'products/test.jpg',
             'status_id' => $status->id,
-            'brand_id' => $brand->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $user->id,
             'order_id' => null,
         ]);

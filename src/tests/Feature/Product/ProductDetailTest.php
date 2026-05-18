@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Status;
@@ -18,10 +17,6 @@ class ProductDetailTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
         $status = Status::create([
             'status' => '良好',
         ]);
@@ -36,12 +31,12 @@ class ProductDetailTest extends TestCase
             'price' => 1000,
             'image' => 'products/test.jpg',
             'status_id' => $status->id,
-            'brand_id' => $brand->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $user->id,
             'order_id' => null,
         ]);
 
-        //商品にカテゴリーを紐づける
+        // 商品にカテゴリーを紐づける
         $product->categories()->attach($category->id);
 
         return $product;

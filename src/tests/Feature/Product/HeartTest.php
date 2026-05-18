@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Brand;
 use App\Models\Heart;
 use App\Models\Product;
 use App\Models\Status;
@@ -18,10 +17,6 @@ class HeartTest extends TestCase
     {
         $seller = User::factory()->create();
 
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
         $status = Status::create([
             'status' => '良好',
         ]);
@@ -32,7 +27,7 @@ class HeartTest extends TestCase
             'price' => 1000,
             'image' => 'products/test.jpg',
             'status_id' => $status->id,
-            'brand_id' => $brand->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $seller->id,
             'order_id' => null,
         ]);

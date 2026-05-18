@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Brand;
 use App\Models\Heart;
 use App\Models\Product;
 use App\Models\Status;
@@ -18,10 +17,6 @@ class MylistTest extends TestCase
     {
         $seller = User::factory()->create();
 
-        $brand = Brand::create([
-            'name' => 'テストブランド',
-        ]);
-
         $status = Status::create([
             'status' => '良好',
         ]);
@@ -32,7 +27,7 @@ class MylistTest extends TestCase
             'price' => 1000,
             'image' => 'products/test.jpg',
             'status_id' => $status->id,
-            'brand_id' => $brand->id,
+            'brand_name' => 'テストブランド', // 修正
             'user_id' => $seller->id,
             'order_id' => null,
         ]);
@@ -78,14 +73,15 @@ class MylistTest extends TestCase
         $response->assertDontSee('いいねしていない商品');
     }
 
-    public function test_未ログインユーザーのマイリストは空表示になる()
+    public function test_未ログインユーザーのマイリストには商品が表示されない()
     {
         $this->createProduct('表示されない商品');
 
         $response = $this->get('/?tab=mylist');
 
         $response->assertStatus(200);
-        //未ログイン時のマイリストには商品を表示しない
+
+        // 未ログイン時のマイリストには商品を表示しない
         $response->assertDontSee('表示されない商品');
     }
 }
