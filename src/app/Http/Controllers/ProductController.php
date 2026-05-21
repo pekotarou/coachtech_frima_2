@@ -106,7 +106,7 @@ class ProductController extends Controller
 
 
 
-        // 商品出品画面
+        //商品出品画面
     public function create()
     {
         //出品画面で使うカテゴリーと商品の状態を取得
@@ -116,7 +116,7 @@ class ProductController extends Controller
         return view('products.sell', compact('categories', 'statuses'));
     }
 
-    // 商品出品保存
+    //商品出品保存
     public function store(ExhibitionRequest $request)
     {
         //商品画像を storage/app/public/products に保存
@@ -146,7 +146,7 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    // 商品購入画面
+    //商品購入画面
     public function purchase(Product $product)
     {
         $user = Auth::user();
@@ -170,36 +170,36 @@ class ProductController extends Controller
     }
 
 
-    // Stripe Checkoutへ接続
+    //Stripe Checkoutへ接続
     public function purchaseStore(PurchaseRequest $request, Product $product)
     {
         $user = Auth::user();
 
-        // プロフィールが未設定なら購入できない
+        //プロフィールが未設定なら購入できない
         if (!$user->profile) {
             return redirect()
                 ->route('profile.edit')
                 ->with('error', '購入前にプロフィールを設定してください。');
         }
 
-        // すでに購入済みの商品は購入できない
+        //すでに購入済みの商品は購入できない
         if ($product->order_id) {
             return redirect()
                 ->route('products.show', $product->id)
                 ->with('error', 'この商品はすでに購入されています。');
         }
 
-        // 自分が出品した商品は購入できない
+        //自分が出品した商品は購入できない
         if ($product->user_id === $user->id) {
             return redirect()
                 ->route('products.show', $product->id)
                 ->with('error', '自分が出品した商品は購入できません。');
         }
 
-        // sessionの送付先住所を取得
+        //sessionの送付先住所を取得
         $address = session('purchase_address.' . $product->id);
 
-        // sessionに住所がなければプロフィール住所を使う
+        //sessionに住所がなければプロフィール住所を使う
         if (!$address && $user->profile) {
             $address = [
                 'zip_code' => $user->profile->zip_code,
@@ -208,7 +208,7 @@ class ProductController extends Controller
             ];
         }
 
-        // 住所がない場合は購入できない
+        //住所がない場合は購入できない
         if (!$address) {
             return redirect()
                 ->route('purchase.address.edit', $product->id)
@@ -217,14 +217,14 @@ class ProductController extends Controller
                 ]);
         }
 
-        // 支払い方法をStripe用に変換
+        //支払い方法をStripe用に変換
         if ($request->payment === 'カード払い' || $request->payment === 'カード支払い') {
             $paymentMethodTypes = ['card'];
         } else {
             $paymentMethodTypes = ['konbini'];
         }
 
-        // Stripe Checkout Sessionを作成
+        //Stripe Checkout Sessionを作成
         $stripe = new StripeClient(config('services.stripe.secret'));
 
         $checkoutSession = $stripe->checkout->sessions->create([
@@ -257,7 +257,7 @@ class ProductController extends Controller
 }
 
 
-    // 送付先住所変更画面
+    //送付先住所変更画面
     public function addressEdit(Product $product)
     {
         $user = Auth::user();
@@ -265,7 +265,7 @@ class ProductController extends Controller
         return view('products.address', compact('product', 'user'));
     }
 
-    // 送付先住所更新
+    //送付先住所更新
     public function addressUpdate(AddressRequest $request, Product $product)
     {
         //購入前の送付先住所をsessionに保存
@@ -320,7 +320,7 @@ class ProductController extends Controller
 
 
 
-    // Stripe決済成功後
+    //Stripe決済成功後
     public function purchaseSuccess(Request $request, Product $product)
     {
         $user = Auth::user();
@@ -387,7 +387,7 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    // Stripe決済キャンセル後
+    //Stripe決済キャンセル後
     public function purchaseCancel(Product $product)
     {
         return redirect()

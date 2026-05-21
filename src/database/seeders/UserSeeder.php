@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
             'email' => 'test@example.com',
 
             //パスワードは必ずハッシュ化する
-            // ログイン時のパスワードは password
+            //ログイン時のパスワードは password
             'password' => Hash::make('password'),
         ]);
     }

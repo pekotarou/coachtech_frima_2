@@ -81,7 +81,7 @@ class MylistTest extends TestCase
 
         $response->assertStatus(200);
 
-        // 未ログイン時のマイリストには商品を表示しない
+        //未ログイン時のマイリストには商品を表示しない
         $response->assertDontSee('表示されない商品');
     }
 }

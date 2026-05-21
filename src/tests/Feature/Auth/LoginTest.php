@@ -62,7 +62,7 @@ class LoginTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
 
-        // プロフィール未設定ならプロフィール設定画面へ
+        //プロフィール未設定ならプロフィール設定画面へ
         $response->assertRedirect(route('profile.edit'));
     }
 }

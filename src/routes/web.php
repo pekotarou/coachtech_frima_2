@@ -35,7 +35,7 @@ Route::get('/login', function () {
 
 //ログイン済みユーザーだけ使える動き
 Route::middleware(['auth', 'verified'])->group(function () {
-    // プロフィール画面
+    //プロフィール画面
     Route::get('/mypage', [ProfileController::class, 'show'])->name('profile.show');
     //プロフィール編集画面
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');

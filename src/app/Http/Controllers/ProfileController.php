@@ -13,13 +13,13 @@ use App\Models\Order;
 
 class ProfileController extends Controller
 {
-    // 初回プロフィール設定画面
+    //初回プロフィール設定画面
     public function create()
     {
         return view('profile.create');
     }
 
-    // 初回プロフィール保存
+    //初回プロフィール保存
     public function store(ProfileRequest $request)
     {
         $user = Auth::user();
@@ -38,11 +38,11 @@ class ProfileController extends Controller
             'image' => $imagePath,
         ]);
 
-        // 初回プロフィール設定後はトップページへ
+        //初回プロフィール設定後はトップページへ
         return redirect('/');
     }
 
-    // プロフィール画面
+    //プロフィール画面
     public function show()
     {
         $user = Auth::user();
@@ -71,7 +71,7 @@ class ProfileController extends Controller
 
 
 
-    // プロフィール設定・編集画面
+    //プロフィール設定・編集画面
     public function edit()
     {
         $profile = Auth::user()->profile;
@@ -85,7 +85,7 @@ class ProfileController extends Controller
         return view('profile.edit', compact('profile'));
     }
 
-    // プロフィール更新
+    //プロフィール更新
     public function update(ProfileRequest $request)
     {
         $user = Auth::user();
@@ -107,7 +107,7 @@ class ProfileController extends Controller
             ['user_id' => $user->id],
             $data
         );
-        // 編集後はマイページへ
+        //編集後はマイページへ
         return redirect('/mypage');
     }
 }

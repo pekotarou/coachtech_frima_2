@@ -12,14 +12,14 @@ class ProductSeeder extends Seeder
 {
     public function run()
     {
-        // 商品の出品者として1人目のユーザーを使う
+        //商品の出品者として1人目のユーザーを使う
         $user = User::first();
 
         if (!$user) {
             return;
         }
 
-        // 仮で最初のカテゴリーを全商品に紐づける
+        //仮で最初のカテゴリーを全商品に紐づける
         $category = Category::first();
 
         if (!$category) {
@@ -116,7 +116,7 @@ class ProductSeeder extends Seeder
                 continue;
             }
 
-            // productsテーブルにはcategory_idを保存しない
+            //productsテーブルにはcategory_idを保存しない
             $product = Product::create([
                 'name' => $productData['name'],
                 'price' => $productData['price'],
@@ -131,7 +131,7 @@ class ProductSeeder extends Seeder
                 'order_id' => null,
             ]);
 
-            // 中間テーブル product_category にカテゴリーを保存
+            //中間テーブル product_category にカテゴリーを保存
             $product->categories()->attach($category->id);
         }
     }

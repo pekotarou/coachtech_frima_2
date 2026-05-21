@@ -59,7 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Product::class);
     }
 
-    // ユーザーが購入した注文
+    //ユーザーが購入した注文
     public function boughtOrders()
     {
         return $this->hasMany(Order::class, 'buyer_id');
