@@ -20,7 +20,7 @@ docker compose up -d --build
 
 ```yaml
 mysql:
-  platform: linux/x86_64
+  platform: linux/x86_64(この文追加)
   image: mysql:8.0.26
 ```
 
@@ -89,7 +89,7 @@ php artisan storage:link
 mkdir -p storage/app/public/products
 ```
 
-9. 以下のディレクトリを作成して商品画像を配置
+9. productsのディレクトリに商品画像（ダミーデータ）を配置
 ```text
 src/storage/app/public/products/
 ```
