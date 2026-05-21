@@ -8,7 +8,7 @@ git clone git@github.com:pekotarou/coachtech_frima_2.git
 ```
 2. ディレクトリへ移動
 ```bash
-cd coachtech_furima
+cd coachtech_frima_2
 ```
 3. Docker Desktopアプリを立ち上げる
 4. Dockerコンテナをビルド・起動
