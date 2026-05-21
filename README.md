@@ -4,7 +4,7 @@
 **Dockerビルド**
 1. リポジトリをクローン
 ```bash
-git clone git@github.com:pekotarou/coachtech_furima.git
+git clone git@github.com:pekotarou/coachtech_frima_2.git
 ```
 2. ディレクトリへ移動
 ```bash
